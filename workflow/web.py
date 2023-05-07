@@ -12,12 +12,14 @@
 """Lightweight HTTP library with a requests-like interface."""
 
 import codecs
+import certifi
 import json
 import mimetypes
 import os
 import random
 import re
 import socket
+import ssl
 import string
 import unicodedata
 import urllib.error
@@ -225,7 +227,9 @@ class Response(object):
 
         # Execute query
         try:
-            self.raw = urllib.request.urlopen(request)
+            context = ssl.create_default_context(cafile=certifi.where())
+            #             context = ssl._create_unverified_context()
+            self.raw = urllib.request.urlopen(request, context=context)
         except urllib.error.HTTPError as err:
             self.error = err
             try:
