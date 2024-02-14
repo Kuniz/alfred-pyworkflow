@@ -228,7 +228,7 @@ class Response(object):
         # Execute query
         try:
             context = ssl.create_default_context(cafile=certifi.where())
-            context.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+            context.options |= 0x00040000  # OP_LEGACY_SERVER_CONNECT
             #             context = ssl._create_unverified_context()
             self.raw = urllib.request.urlopen(request, context=context)
         except urllib.error.HTTPError as err:
